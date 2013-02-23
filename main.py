@@ -32,7 +32,7 @@ def treeFormat(jsonIn, nodeList = []):
     result = {}
     json = jsonIn['searchResponse']['results'][0]['name']
     print pretty(json)
-    result['name'] = json['aliases'][0] #TODO: fix this
+    result['name'] = json['aliases'][0]
     result['children'] = []
     for  x in nodeList:
         result['children'].append({'name':x, 'children':[]})
@@ -45,10 +45,7 @@ def treeFormat(jsonIn, nodeList = []):
                     x['children'].append({'name':y})
                 else:
                     x['children'].append({'name':y['name']})
-    print pretty(result)
     return result
-#    for x in result['children']:
-#        x = json[]
 
 # same method as above, but formats to encode geo-data
 #TODO: def mapFormat():
