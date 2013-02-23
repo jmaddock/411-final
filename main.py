@@ -23,14 +23,32 @@ def getData(base = 'http://api.rovicorp.com/search/v2.1/music/search?',
     url = base + urllib.urlencode(params) + "&include="+include   
     try: 
         json = (convert(safeGet(url)))
-        print pretty(json)
         return json
     except:
         return None
 # Pre : input JSON files in a dictionary, possibly multiple
 # Post: returns JSON file formatted for the d3 basic network
-def treeFormat(jsonIn, nodeList = {}):
-    json = jsonIn['searchResponse']['results'][1]['name']
+def treeFormat(jsonIn, nodeList = []):
+    result = {}
+    json = jsonIn['searchResponse']['results'][0]['name']
+    print pretty(json)
+    result['name'] = json['aliases'][0] #TODO: fix this
+    result['children'] = []
+    for  x in nodeList:
+        result['children'].append({'name':x, 'children':[]})
+    print pretty(result)
+    for x in result['children']:
+        if json[x['name']]:
+            print json[(x['name'])]
+            for y in json[(x['name'])]:
+                if x['name'] == 'aliases':
+                    x['children'].append({'name':y})
+                else:
+                    x['children'].append({'name':y['name']})
+    print pretty(result)
+    return result
+#    for x in result['children']:
+#        x = json[]
 
 # same method as above, but formats to encode geo-data
 #TODO: def mapFormat():
