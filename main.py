@@ -31,21 +31,20 @@ def getData(base = 'http://api.rovicorp.com/search/v2.1/music/search?',
 def treeFormat(jsonIn, nodeList = []):
     result = {}
     json = jsonIn['searchResponse']['results'][0]['name']
-    print pretty(json)
-    result['name'] = json['aliases'][0]
+    result['name'] = json['aliases'][0] #TODO: fix this
     result['children'] = []
     for  x in nodeList:
         result['children'].append({'name':x, 'children':[]})
-    print pretty(result)
     for x in result['children']:
         if json[x['name']]:
-            print json[(x['name'])]
             for y in json[(x['name'])]:
                 if x['name'] == 'aliases':
                     x['children'].append({'name':y})
                 else:
                     x['children'].append({'name':y['name']})
-    return result
+    return simplejson.dumps(result)
+#    for x in result['children']:
+#        x = json[]
 
 # same method as above, but formats to encode geo-data
 #TODO: def mapFormat():
