@@ -34,36 +34,46 @@ def treeFormat(jsonIn, nodeList = []):
               'entitytype':'artist',}
     include = 'Moods,MusicBio,MusicStyles,Themes'
     includeList = ['moods','musicBio','musicStyles','themes']
+    color = ['0x8DD3C7','0xFFFFB3','0xBEBADA','0xFB8072','0x80B1D3','0xFDB462','0xB3DE69']
     result = {}
     json = jsonIn['searchResponse']['results'][0]['name']
     result['name'] = json['name']
     result['children'] = []
+    i = 0
     for  x in nodeList:
-        result['children'].append({'name':x, 'children':[]})
+        result['children'].append({'name':x, 'children':[], 'color':color[i]})
+        i += 1
     for x in result['children']:
         if json[x['name']]:
             count = 0
             for y in json[(x['name'])]:
                 if x['name'] == 'aliases': #TODO: start here, start including data
                     result['Aliases'] = y
+                elif x['name'] == 'groupMembers':
+                    group = ""
+                    for a in y:
+                        group += (a['name'] + ",")
+                    result['Group Members'] = group
                 else:
                     params['query'] = y['name']
                     z = getData(params = params, include = include)['searchResponse']['results'][0]['name']
                     if 'weight' in y:
                         x['children'].append({'name':y['name'],
                                               'Weight':y['weight'],
+                                              'children':[],
+                                              'color':x['color']})
+                    else:
+                        x['children'].append({'name':y['name'],
                                               'children':[]})
-                        for a in includeList:
-                            try:
-                                x['children'][count][formatTitle(a)] = z[a][0]['name']
-                            except:
-                                print 'working...'
+                    for a in includeList:
+                        try:
+                            x['children'][count][formatTitle(a)] = z[a][0]['name']
+                        except:
+                            print 'working...'
 #                                              'moods':z['moods'][0],
 #                                              'musicGeneres':z['musicGenres'][0],
 #                                              'musicStyles':z['musicStyles'][0],
 #                                              'themes':z['themes'][0],})
-                    else:
-                        x['children'].append({'name':y['name']})
                     count += 1
     for x in result['children']:
         x['name'] = formatTitle(x['name'])
