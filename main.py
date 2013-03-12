@@ -41,19 +41,14 @@ def treeFormat(jsonIn, nodeList = []):
     result['children'] = []
     i = 0
     for  x in nodeList:
-        result['children'].append({'name':x, 'children':[], 'color':color[i]})
+        result['children'].append({'name':x, 'children':[], 'color':color[i],})
         i += 1
     for x in result['children']:
         if json[x['name']]:
             count = 0
             for y in json[(x['name'])]:
-                if x['name'] == 'aliases': #TODO: start here, start including data
+                if x['name'] == 'aliases':
                     result['Aliases'] = y
-                elif x['name'] == 'groupMembers':
-                    group = ""
-                    for a in y:
-                        group += (a['name'] + ",")
-                    result['Group Members'] = group
                 else:
                     params['query'] = y['name']
                     z = getData(params = params, include = include)['searchResponse']['results'][0]['name']
@@ -70,10 +65,6 @@ def treeFormat(jsonIn, nodeList = []):
                             x['children'][count][formatTitle(a)] = z[a][0]['name']
                         except:
                             print 'working...'
-#                                              'moods':z['moods'][0],
-#                                              'musicGeneres':z['musicGenres'][0],
-#                                              'musicStyles':z['musicStyles'][0],
-#                                              'themes':z['themes'][0],})
                     count += 1
     for x in result['children']:
         x['name'] = formatTitle(x['name'])
@@ -112,10 +103,6 @@ def formatTitle(input):
         return "Theme"
     else:
         return input
-    
-
-# same method as above, but formats to encode geo-data
-#TODO: def mapFormat():
     
 def convert(restful):
     jsonresult = restful.read()
