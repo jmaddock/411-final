@@ -1,4 +1,4 @@
-#import data
+import data
 
 #this should probably be 'all' in the final
 def run():
@@ -9,7 +9,8 @@ def run():
               'entitytype':'artist',
               'query':query,}
     json = data.getData(params = params, include = include)
-    return data.treeFormat(json, nodeList)
+    print json
+    #return data.treeFormat(json, nodeList)
 
 def main():
     run()

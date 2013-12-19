@@ -16,17 +16,17 @@ def getData(base = 'http://api.rovicorp.com/search/v2.1/music/search?',
             country = 'us',
             include = '',
             params = {}):
-    
     params['apikey'] = key
     params['format'] = return_format
     params['country'] = country
     params['sig'] = sig()
-    url = base + urllib.urlencode(params) + "&include="+include   
-    try: 
+    url = base + urllib.urlencode(params) + "&include="+include
+    try:
         json = (convert(safeGet(url)))
         return json
     except:
         return None
+
 # Pre : input JSON files in a dictionary, possibly multiple
 # Post: returns JSON file formatted for the d3 basic network
 def treeFormat(jsonIn, nodeList = []):
@@ -73,7 +73,7 @@ def treeFormat(jsonIn, nodeList = []):
 
 def expandTree(jsonIn, artist):
     jsonIn
-    
+
 def formatTitle(input):
     if input == 'aliases':
         return "Aliases"
@@ -103,14 +103,14 @@ def formatTitle(input):
         return "Theme"
     else:
         return input
-    
+
 def convert(restful):
     jsonresult = restful.read()
     return simplejson.loads(jsonresult)
 
 def pretty(obj):
     return simplejson.dumps(obj, sort_keys=True, indent=2)
-    
+
 def safeGet(url):
     try:
         return urllib2.urlopen(url)
@@ -130,4 +130,3 @@ def sig():
         m.update(API_SECRET)
         m.update(str(timestamp))
         return m.hexdigest()
-    
