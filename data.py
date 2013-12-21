@@ -50,8 +50,6 @@ def treeFormat(jsonIn, nodeList = []):
                 if x['name'] == 'aliases':
                     result['Aliases'] = y
                 else:
-                    params['query'] = y['name']
-                    z = getData(params = params, include = include)['searchResponse']['results'][0]['name']
                     if 'weight' in y:
                         x['children'].append({'name':y['name'],
                                               'Weight':y['weight'],
@@ -60,15 +58,9 @@ def treeFormat(jsonIn, nodeList = []):
                     else:
                         x['children'].append({'name':y['name'],
                                               'children':[]})
-                    for a in includeList:
-                        try:
-                            x['children'][count][formatTitle(a)] = z[a][0]['name']
-                        except:
-                            print 'working...'
                     count += 1
     for x in result['children']:
         x['name'] = formatTitle(x['name'])
-    print pretty(result)
     return simplejson.dumps(result)
 
 def expandTree(jsonIn, artist):

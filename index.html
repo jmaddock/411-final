@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Visualize an Artist</h4>
+<br>
+<form method='post' action='/' enctype="multipart/form-data">
+    <div><input type="text" name="query"/></div>
+    <input type="submit" value="search">
+</form>
+{% endblock %}
